@@ -1,0 +1,18 @@
+football_analytics:
+  target: dev
+  outputs:
+    dev:
+      type: snowflake
+      account: "{{ env_var('DBT_ACCOUNT_FOOTBALL') }}"
+
+      # User/password auth
+      user: "{{ env_var('DBT_USER_FOOTBALL') }}"
+      password: "{{ env_var('DBT_PASSWORD_FOOTBALL') }}"
+
+      role: "{{ env_var('DBT_ROLE_FOOTBALL') }}"
+      database: "{{ env_var('DBT_DATABASE_FOOTBALL') }}"
+      warehouse: "{{ env_var('DBT_WAREHOUSE_FOOTBALL') }}"
+      schema: "{{ env_var('DBT_SCHEMA_FOOTBALL') }}"
+      threads: 4
+      client_session_keep_alive: False
+
