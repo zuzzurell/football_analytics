@@ -21,8 +21,7 @@ env:
 jobs:
   run_dbt_dev:
     name: run_from_github
-    runs-on: self-hosted
-
+    
     steps:
       - name: Check out
         uses: actions/checkout@master
