@@ -1,0 +1,14 @@
+version: 2
+
+sources:
+  - name: RAW_FOOTBALL
+    database: DBT_FOOTBALL
+    schema: RAW_FOOTBALL
+    tables:
+    - name: RAW_SERIE_A_2015_2016
+    - name: RAW_SERIE_A_2016_2017
+    - name: RAW_SERIE_A_2017_2018
+    - name: RAW_SERIE_A_2018_2019
+    - name: RAW_SERIE_A_2020_2021
+    - name: RAW_SERIE_A_2021_2022
+    - name: RAW_SERIE_A_2022_2023
