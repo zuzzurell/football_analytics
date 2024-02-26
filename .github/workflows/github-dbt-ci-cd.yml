@@ -1,0 +1,37 @@
+name: GitHub DBT CI/CD
+
+on:
+  workflow_dispatch:
+    # Inputs the workflow accepts.
+    inputs:
+      name:
+        # Friendly description to be shown in the UI instead of 'name'
+        description: 'What is the reason to trigger this manually?'
+        # Default value if no value is explicitly provided
+        default: 'workflow test'
+        # Input has to be provided for the workflow to run
+        required: true
+
+env:
+  DBT_PROFILES_DIR: ./profiles/
+  DBT_USER_FOOTBALL: ${{ secrets.DBT_USER_FOOTBALL }}
+  DBT_PASSWORD_FOOTBALL: ${{ secrets.DBT_PASSWORD_FOOTBALL }}
+
+   
+jobs:
+  run_dbt_dev:
+    name: run_from_github
+    runs-on: self-hosted
+
+    steps:
+      - name: Check out
+        uses: actions/checkout@master
+
+      - name: Get check connection to snowflake
+        run: dbt debug 
+      
+      - name: Get dependencies # ok guess I need this anyway
+        run: dbt deps 
+
+      - name: Run dbt build
+        run: dbt run
