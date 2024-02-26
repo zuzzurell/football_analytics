@@ -29,5 +29,6 @@ sk_unique_players as (
     SELECT
     {{dbt_utils.generate_surrogate_key(['palyer_id','season','palyer_team'])}} as palyer_sk,
     *
+    FROM load_columns
 )
 SELECT * FROM sk_unique_players
