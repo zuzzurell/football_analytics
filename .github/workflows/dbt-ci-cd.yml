@@ -11,8 +11,13 @@ on:
 
 env:
   DBT_PROFILES_DIR: ./profiles/
+  DBT_ACCOUNT_FOOTBALL:  ${{ secrets.DBT_ACCOUNT_FOOTBALL }}
   DBT_USER_FOOTBALL: ${{ secrets.DBT_USER_FOOTBALL }}
   DBT_PASSWORD_FOOTBALL: ${{ secrets.DBT_PASSWORD_FOOTBALL }}
+  DBT_ROLE_FOOTBALL: ${{ env.DBT_ROLE_FOOTBALL }}
+  DBT_DATABASE_FOOTBALL: ${{ env.DBT_DATABASE_FOOTBALL }}
+  DBT_WAREHOUSE_FOOTBALL: ${{ env.DBT_WAREHOUSE_FOOTBALL }}
+  DBT_SCHEMA_FOOTBALL: ${{ env.DBT_SCHEMA_FOOTBALL }}
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   # This workflow contains a single job called "build"
@@ -22,9 +27,13 @@ jobs:
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
+
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v3
-
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.8'
       - name: Get check connection to snowflake
         run: dbt debug 
       
