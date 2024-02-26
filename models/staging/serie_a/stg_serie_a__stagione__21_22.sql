@@ -1,11 +1,11 @@
 with load_stagione_22_23 as (
-    SELECT * FROM {{source('RAW_FOOTBALL','RAW_SERIE_A_2022_2023')}}
+    SELECT * FROM {{source('RAW_FOOTBALL','RAW_SERIE_A_2021_2022')}}
 ),
 
 load_columns as (
     SELECT 
     ID::varchar as palyer_id,
-    '2022-2023' as season,
+    '2021-2022' as season,
     R::varchar as palyer_role,
     nome::varchar as player_name,
     squadra::varchar as palyer_team,
