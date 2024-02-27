@@ -42,5 +42,5 @@ jobs:
       - name: Run dbt modified models
         run: |
         dbt compile 
-        dbt ls --select state:modified+ --defer --state=dbt-generated-artifacts
-        dbt run --select state:modified+ --defer --state=dbt-generated-artifacts
+        dbt ls --select state:modified+ --defer --state=prod-run-artifacts
+        dbt run --select state:modified+ --defer --state=prod-run-artifacts

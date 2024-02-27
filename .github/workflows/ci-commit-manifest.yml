@@ -34,7 +34,7 @@ jobs:
       # Your workflow steps to generate files go here...
       - name: Generate Files
         run: |
-          dbt compile --target-path=dbt-generated-artifacts
+          dbt compile --target-path=prod-run-artifacts
 
       - name: Commit files
         run: |
