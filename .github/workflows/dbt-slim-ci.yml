@@ -28,6 +28,10 @@ jobs:
       # Pull the Docker image
       - name: Pull Docker image
         run: docker pull ghcr.io/dbt-labs/dbt-snowflake:1.7.1
+
+      - name: docker content
+        run: docker run --rm ghcr.io/dbt-labs/dbt-snowflake:1.7.1 dbt --version
+
         
       - name: Get check connection to snowflake
         run: dbt debug 
