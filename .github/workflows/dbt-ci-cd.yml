@@ -41,9 +41,6 @@ jobs:
 
       - name: Run dbt modified models
         run: |
-          OUTPUT=$(dbt ls --selector state:modified+ --defer --state=prod-run-artifacts)  # Get a list of modified dbt models
-          if [[ -n "$OUTPUT" ]]; then
-            dbt run --models "$OUTPUT"  # Run dbt only on modified models
-          else
-            echo "No modified models found. Skipping dbt run."
-          fi
+        dbt compile 
+        dbt ls --select state:modified+ --defer --state=dbt-generated-artifacts
+        dbt run --select state:modified+ --defer --state=dbt-generated-artifacts
