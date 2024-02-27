@@ -13,6 +13,7 @@ env:
   DBT_PROFILES_DIR: ./profiles/
   DBT_ACCOUNT_FOOTBALL:  ${{ secrets.DBT_ACCOUNT_FOOTBALL }}
   DBT_PASSWORD_FOOTBALL: ${{ secrets.DBT_PASSWORD_FOOTBALL }}
+
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   # This workflow contains a single job called "build"
@@ -40,9 +41,9 @@ jobs:
         run: dbt deps 
 
       - name: Run dbt modified models
-      - run: |
-        dbt compile  # compile our feature branch changes
-        
-        dbt ls --select state:modified+ --defer --state=prod-run-artifacts  # list the modified dbt models
-        
-        dbt run --select state:modified+ --defer --state=prod-run-artifacts  # run modified dbt models only
+        run: |
+          dbt compile  # compile our feature branch changes
+          
+          dbt ls --select state:modified+ --defer --state=prod-run-artifacts  # list the modified dbt models
+          
+          dbt run --select state:modified+ --defer --state=prod-run-artifacts  # run modified dbt models only
