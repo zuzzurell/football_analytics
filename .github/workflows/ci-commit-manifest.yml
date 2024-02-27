@@ -1,0 +1,46 @@
+name: Genrate and commit artifacts to repository
+
+on:
+  pull:
+    branches:
+      - main
+
+env:
+  DBT_PROFILES_DIR: ./profiles/
+  DBT_ACCOUNT_FOOTBALL:  ${{ secrets.DBT_ACCOUNT_FOOTBALL }}
+  DBT_PASSWORD_FOOTBALL: ${{ secrets.DBT_PASSWORD_FOOTBALL }}
+  user_email: ${{ secrets.git_user_email }}
+
+jobs:
+  generate-and-commit:
+    runs-on: ubuntu-latest
+
+    steps:  # Allows you to run this workflow manually from the Actions tab 
+
+    #Install Python
+      - uses: actions/checkout@v3
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.8'
+
+    #Instatll DBT
+      - name: install dbt
+        run: pip install dbt-snowflake
+    
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      # Your workflow steps to generate files go here...
+      - name: Generate Files
+        run: |
+          dbt compile --target-path=dbt-generated-artifacts
+
+      - name: Commit files
+        run: |
+          git config --global user.email  "{{ env_var('user_email') }}"
+          git config --global user.name "GitHub Actions"
+
+          git add .
+          git commit -m "Add generated artifacts" || true
+          git push
