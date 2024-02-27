@@ -30,6 +30,9 @@ jobs:
     
       - name: Checkout repository
         uses: actions/checkout@v2
+        
+      - name: Get dependencies
+        run: dbt deps 
 
       # Your workflow steps to generate files go here...
       - name: Generate Files
