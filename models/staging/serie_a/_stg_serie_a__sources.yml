@@ -1,9 +1,9 @@
 version: 2
 
 sources:
-  - name: RAW_FOOTBALL
-    database: DBT_FOOTBALL
-    schema: RAW_FOOTBALL
+  - name: RAW_SERIE_A
+    database: RAW_FOOTBALL
+    schema: RAW_SERIE_A
     tables:
     - name: RAW_SERIE_A_2015_2016
     - name: RAW_SERIE_A_2016_2017

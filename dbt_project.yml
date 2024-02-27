@@ -7,7 +7,7 @@ version: '1.0.0'
 config-version: 2
 
 # This setting configures which "profile" dbt uses for this project.
-profile: 'football_analytics'
+profile: 'dev'
 
 # These configurations specify where dbt should look for different types of files.
 # The `model-paths` config, for example, states that models in this project can be
@@ -35,5 +35,14 @@ models:
 
     staging:
       +materialized: view
+      databes: |
+        {%- if  target.name == "dev" -%} DEV_DBT_FOOTBALL
+        {%- elif target.name == "prod"  -%} PROD_DBT_FOOTBALL
+        {%- else -%} invalid_database
+        {%- endif -%}
       serie_a:
-        +schema: STG_FOOTBALL
+        +schema: STAGE_SERIE_A
+    indermidiate:
+      +materialized: table
+    marts:
+      +materialized: table

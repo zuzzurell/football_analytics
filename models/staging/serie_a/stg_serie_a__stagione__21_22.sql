@@ -1,5 +1,5 @@
 with load_stagione_22_23 as (
-    SELECT * FROM {{source('RAW_FOOTBALL','RAW_SERIE_A_2021_2022')}}
+    SELECT * FROM {{source('RAW_SERIE_A','RAW_SERIE_A_2021_2022')}}
 ),
 
 load_columns as (
