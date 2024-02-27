@@ -1,7 +1,7 @@
 name: Genrate and commit artifacts to repository
 
 on:
-  pull_request:
+  push:
     branches:
       - main
 
