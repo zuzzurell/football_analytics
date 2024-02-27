@@ -12,12 +12,7 @@ on:
 env:
   DBT_PROFILES_DIR: ./profiles/
   DBT_ACCOUNT_FOOTBALL:  ${{ secrets.DBT_ACCOUNT_FOOTBALL }}
-  DBT_USER_FOOTBALL: ${{ secrets.DBT_USER_FOOTBALL }}
   DBT_PASSWORD_FOOTBALL: ${{ secrets.DBT_PASSWORD_FOOTBALL }}
-  DBT_ROLE_FOOTBALL: ${{ secrets.DBT_ROLE_FOOTBALL }}
-  DBT_DATABASE_FOOTBALL: ${{ secrets.DBT_DATABASE_FOOTBALL }}
-  DBT_WAREHOUSE_FOOTBALL: ${{ secrets.DBT_WAREHOUSE_FOOTBALL }}
-  DBT_SCHEMA_FOOTBALL: ${{ secrets.DBT_SCHEMA_FOOTBALL }}
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   # This workflow contains a single job called "build"
@@ -41,7 +36,7 @@ jobs:
       - name: Get check connection to snowflake
         run: dbt debug 
       
-      - name: Get dependencies # ok guess I need this anyway
+      - name: Get dependencies
         run: dbt deps 
 
       - name: Run dbt build

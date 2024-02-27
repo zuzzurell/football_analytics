@@ -4,15 +4,13 @@ dev:
     dev:
       type: snowflake
       account: "{{ env_var('DBT_ACCOUNT_FOOTBALL') }}"
-
-      # User/password auth
-      user: "{{ env_var('DBT_USER_FOOTBALL_DEV') }}"
       password: "{{ env_var('DBT_PASSWORD_FOOTBALL') }}"
 
-      role: "{{ env_var('DBT_ROLE_FOOTBALL_DEV') }}"
-      database: "{{ env_var('DBT_DATABASE_FOOTBALL_DEV') }}"
-      warehouse: "{{ env_var('DBT_WAREHOUSE_FOOTBALL_DEV') }}"
-      schema: "{{ env_var('DBT_SCHEMA_FOOTBALL_DEV') }}"
+      user: DEV_DBTFOOTBALL
+      role: DBT_PROD
+      database: DEV_DBT_FOOTBALL
+      warehouse: COMPUTE_WH
+      schema: PUBLIC
       threads: 4
     
 prod:
@@ -21,15 +19,13 @@ prod:
     prod:
       type: snowflake
       account: "{{ env_var('DBT_ACCOUNT_FOOTBALL') }}"
-
-      # User/password auth
-      user: "{{ env_var('DBT_USER_FOOTBALL') }}"
       password: "{{ env_var('DBT_PASSWORD_FOOTBALL') }}"
 
-      role: "{{ env_var('DBT_ROLE_FOOTBALL') }}"
-      database: "{{ env_var('DBT_DATABASE_FOOTBALL') }}"
-      warehouse: "{{ env_var('DBT_WAREHOUSE_FOOTBALL') }}"
-      schema: "{{ env_var('DBT_SCHEMA_FOOTBALL') }}"
+      user: DBTFOOTBALL
+      role: DBT_PROD
+      database: PROD_DBT_FOOTBALL
+      warehouse: COMPUTE_WH
+      schema: PUBLIC
       threads: 4
 
 
