@@ -44,6 +44,6 @@ jobs:
         run: |
           dbt compile  # compile our feature branch changes
           
-          dbt ls --select state:modified+ --defer --state=prod-run-artifacts  # list the modified dbt models
+          dbt ls --select state:modified+ --defer --state prod-run-artifacts  # list the modified dbt models
           
-          dbt run --select state:modified+ --defer --state=prod-run-artifacts  # run modified dbt models only
+          dbt run --select state:modified+ --defer --state prod-run-artifacts  # run modified dbt models only
