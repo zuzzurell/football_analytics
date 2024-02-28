@@ -49,7 +49,7 @@ jobs:
         run: dbt compile --target-path=dbt-artifacts
 
       #Upload Artifacts 
-      run: mkdir -p dbt-artifacts/
+        run: mkdir -p dbt-artifacts/
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
