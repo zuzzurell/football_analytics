@@ -48,7 +48,8 @@ jobs:
 
       # Generates files
       - name: Generate Files
-        run: dbt compile --profiles-dir profiles --profile dev --target-path=dbt-artifacts
+      #Comparing to prod as dev for now is supposed to be the local development
+        run: dbt compile --profiles-dir profiles --profile prod --target-path=dbt-artifacts
 
       #Upload Artifacts 
       - name: Upload artifact
