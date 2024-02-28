@@ -16,8 +16,7 @@ env:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  
-  
+
 # This workflow contains a single job called "build-dbt"
   build-dbt-modified:
     # The type of runner that the job will run on
@@ -50,13 +49,13 @@ jobs:
       - name: Get Dependencies
         run: dbt deps 
 
-    - name: Download artifact
-      uses: dawidd6/action-download-artifact@v3
-      with:
-        workflow: dbt-commit-artifact.yml # Name of the workflow generating the artifact
-        workflow_conclusion: success # Conclusion of the workflow to retrieve artifact from
-        name: dbt-artifacts-files # Name of the artifact to download
-        path: dbt-artifacts # Path to download the artifact to
+      - name: Download artifact
+        uses: dawidd6/action-download-artifact@v3
+        with:
+          workflow: dbt-commit-artifact.yml # Name of the workflow generating the artifact
+          workflow_conclusion: success # Conclusion of the workflow to retrieve artifact from
+          name: dbt-artifacts-files # Name of the artifact to download
+          path: dbt-artifacts # Path to download the artifact to
 
       - name: Test artifact download
         run:  ls -R
