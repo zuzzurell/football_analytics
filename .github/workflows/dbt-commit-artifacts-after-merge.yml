@@ -55,7 +55,10 @@ jobs:
           git config --global user.name "GitHub Actions"
 
           git add .
-          git commit -m "Add generated artifacts" || true
+          git commit -m "Add generated artifacts
+          >
+          >
+          skip-checks: true" || true
           git push
 
 
