@@ -1,10 +1,10 @@
-name: DBT Slim CI Workflow
-
-# Controls when the workflow will run
+name: DBT Commit Artifacts
+#Commiting new artifact file once changes have been merged successfully
 on:
-  # Triggers the workflow on push or pull request events but only for the "main" branch
-  push:
+  pull_request:
     branches: [main]
+    types:
+      - closed
 
   # Allows you to run this workflow manually from the Actions tab  
   workflow_dispatch:
@@ -40,16 +40,23 @@ jobs:
           python -m pip install --upgrade pip
           pip install dbt-snowflake
 
-      # Checks the connection to snowflake
-      - name: Check Connection to Snowflake
-        run: dbt debug 
-
       # Gets dependencies
       - name: Get Dependencies
         run: dbt deps 
 
-      # Runs dbt modified models
-      - name: Run DBT Modified Models
+      # Generates files
+      - name: Generate Files
+        run: dbt compile --target-path=prod-run-artifacts
+
+      # Commits files
+      - name: Commit Files
         run: |
-          dbt compile  # Compiles our feature branch changes
-          dbt run --select state:modified+ --defer --state prod-run-artifacts  # Runs modified dbt models only
+          git config --global user.email ${{ secrets.GIT_USER_EMAIL }}
+          git config --global user.name "GitHub Actions"
+
+          git add .
+          git commit -m "Add generated artifacts" || true
+          git push
+
+
+
