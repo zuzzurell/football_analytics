@@ -46,7 +46,7 @@ jobs:
 
       # Generates files
       - name: Generate Files
-        run: dbt compile --target-path=prod-run-artifacts
+        run: dbt compile --target-path=prod-run-artifact
 
       #Upload Artifacts 
       - name: Upload artifacts
@@ -54,7 +54,7 @@ jobs:
         with:
           name: upload dbt artifacts
           path: |
-            prod-run-artifacts
+            prod-run-artifact
 
 
 
