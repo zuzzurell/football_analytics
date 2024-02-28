@@ -60,3 +60,42 @@ jobs:
         run: |
           dbt compile  # Compiles our feature branch changes
           dbt run --select state:modified+ --defer --state dbt-artifacts  # Runs modified dbt models only
+  # This workflow contains a single job called "build-dbt"
+  commit-artifacts-to-repo:
+    needs: [build-dbt]
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+
+      # Checks out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      # Sets up Python
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.8'
+
+      # Installs dbt
+      - name: Install dbt
+        run: |
+          python -m pip install --upgrade pip
+          pip install dbt-snowflake
+
+      # Gets dependencies
+      - name: Get Dependencies
+        run: dbt deps 
+
+      # Generates files
+      - name: Generate Files
+        run: dbt compile --target-path=dbt-artifacts
+
+      #Upload Artifacts 
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: DBT artifacts files
+          path: dbt-artifacts/
