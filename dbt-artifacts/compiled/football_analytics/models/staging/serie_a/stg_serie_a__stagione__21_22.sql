@@ -1,11 +1,11 @@
 with load_stagione_22_23 as (
-    SELECT * FROM {{source('RAW_SERIE_A','RAW_SERIE_A_2022_2023')}}
+    SELECT * FROM RAW_FOOTBALL.RAW_SERIE_A.RAW_SERIE_A_2021_2022
 ),
 
 load_columns as (
     SELECT 
     ID::varchar as palyer_id,
-    '2022-2023' as season,
+    '2021-2022' as season,
     R::varchar as palyer_role,
     nome::varchar as player_name,
     squadra::varchar as palyer_team,
@@ -27,7 +27,7 @@ load_columns as (
 --Add sk for unique player each season
 sk_unique_players as (
     SELECT
-    {{dbt_utils.generate_surrogate_key(['palyer_id','season','palyer_team'])}} as palyer_sk,
+    md5(cast(coalesce(cast(palyer_id as TEXT), '_dbt_utils_surrogate_key_null_') || '-' || coalesce(cast(season as TEXT), '_dbt_utils_surrogate_key_null_') || '-' || coalesce(cast(palyer_team as TEXT), '_dbt_utils_surrogate_key_null_') as TEXT)) as palyer_sk,
     *
     FROM load_columns
 )
