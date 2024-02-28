@@ -56,6 +56,9 @@ jobs:
         with:
           name: dbt-artifacts-files
           path: dbt-artifacts/
+          
+      - name: Test artifact download
+        run:  ls -R
 
 
 
