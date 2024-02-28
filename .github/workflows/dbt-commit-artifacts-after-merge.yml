@@ -46,20 +46,14 @@ jobs:
 
       # Generates files
       - name: Generate Files
-        run: dbt compile --target-path=prod-run-artifacts
+        run: dbt compile --target-path=dbt-artifacts
 
       #Upload Artifacts 
-      - run: mkdir -p prod-run-artifacts/
-      - run: echo manifest.json > prod-run-artifacts/manifest.json
-      - uses: actions/upload-artifact@v4
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
         with:
-          name: manifest.json
-          path: prod-run-artifacts/manifest.json
+          name: DBT artifacts files
+          path: .dbt-artifacts/
 
-      - name: Download Artifact
-        uses: actions/download-artifact@v4
-        with:
-          name: prod-run-artifacts/manifest.json
-          path: prod-run-artifacts
 
 
