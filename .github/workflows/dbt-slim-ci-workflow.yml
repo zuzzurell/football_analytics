@@ -49,7 +49,7 @@ jobs:
         run: dbt deps 
 
       - name: Test artifact download
-        run:  ls -R dbt-artifacts
+        run:  ls -R
 
       - name: Download artifact
         uses: actions/download-artifact@v4
