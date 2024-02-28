@@ -52,7 +52,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
-          name: DBT artifacts files
+          name: manifest
           path: dbt-artifacts/
 
 
