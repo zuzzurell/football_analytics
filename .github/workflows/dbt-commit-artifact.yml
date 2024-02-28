@@ -1,4 +1,4 @@
-name: DBT Slim CI Workflow
+name: Store Artifact
 
 # Controls when the workflow will run
 on:
@@ -17,9 +17,8 @@ env:
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   
-  
-# This workflow contains a single job called "build-dbt"
-  build-dbt-modified:
+  # This workflow contains a single job called "build-dbt"
+  commit-artifacts-to-repo:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
 
@@ -42,27 +41,18 @@ jobs:
           python -m pip install --upgrade pip
           pip install dbt-snowflake
 
-      # Checks the connection to snowflake
-      - name: Check Connection to Snowflake
-        run: dbt debug 
-
       # Gets dependencies
       - name: Get Dependencies
         run: dbt deps 
 
-    - name: Download artifact
-      uses: dawidd6/action-download-artifact@v3
-      with:
-        workflow: dbt-commit-artifact.yml # Name of the workflow generating the artifact
-        workflow_conclusion: success # Conclusion of the workflow to retrieve artifact from
-        name: dbt-artifacts-files # Name of the artifact to download
-        path: dbt-artifacts # Path to download the artifact to
+      # Generates files
+      - name: Generate Files
+      #Comparing to prod as dev for now is supposed to be the local development
+        run: dbt compile --profiles-dir profiles --profile dev --target-path=dbt-artifacts
 
-      - name: Test artifact download
-        run:  ls -R
-
-      # Runs dbt modified models
-      - name: Run DBT Modified Models
-        run: |
-          dbt compile  # Compiles our feature branch changes
-          dbt run --select state:modified+ --profile dev --defer --state dbt-artifacts  # Runs modified dbt models only
+      #Upload Artifacts 
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: dbt-artifacts-files
+          path: dbt-artifacts/
