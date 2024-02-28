@@ -48,8 +48,15 @@ jobs:
       - name: Get Dependencies
         run: dbt deps 
 
+      - name: Download artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: DBT artifacts files
+      - name: Test artifact download
+        run:  ls -R
+
       # Runs dbt modified models
       - name: Run DBT Modified Models
         run: |
           dbt compile  # Compiles our feature branch changes
-          dbt run --select state:modified+ --defer --state prod-run-artifacts  # Runs modified dbt models only
+          dbt run --select state:modified+ --defer --state dbt-artifacts  # Runs modified dbt models only
