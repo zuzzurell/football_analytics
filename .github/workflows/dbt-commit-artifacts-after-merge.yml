@@ -2,7 +2,7 @@ name: DBT Commit Artifacts
 #Commiting new artifact file once changes have been merged successfully
 on:
   pull_request:
-    branches: [develop]
+    branches: [main]
     types:
       - closed
 
