@@ -5,7 +5,7 @@ with load_stagione_22_23 as (
 load_columns as (
     SELECT 
     ID::varchar as palyer_id,
-    '2022-2023' as season 
+    '2022-2023' as season,
     R::varchar as palyer_role,
     nome::varchar as player_name,
     squadra::varchar as palyer_team,
