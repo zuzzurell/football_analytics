@@ -51,7 +51,8 @@ jobs:
       - name: Download artifact
         uses: actions/download-artifact@v4
         with:
-          name: DBT artifacts files
+          name: manifest
+          path: dbt-artifacts
       - name: Test artifact download
         run:  ls -R
 
@@ -97,5 +98,5 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
-          name: DBT artifacts files
-          path: dbt-artifacts/
+          name: manifest
+          path: dbt-artifacts/manifest.json
