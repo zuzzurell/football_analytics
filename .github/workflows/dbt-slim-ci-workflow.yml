@@ -19,7 +19,6 @@ jobs:
   
   # This workflow contains a single job called "build-dbt"
   commit-artifacts-to-repo:
-    needs: [build-dbt]
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
 
@@ -48,7 +47,8 @@ jobs:
 
       # Generates files
       - name: Generate Files
-        run: dbt compile --profiles-dir profiles --profile dev --target-path=dbt-artifacts
+      #Comparing to prod as dev for now is supposed to be the local development
+        run: dbt compile --profiles-dir profiles --profile prod --target-path=dbt-artifacts
 
       #Upload Artifacts 
       - name: Upload artifact
@@ -58,7 +58,8 @@ jobs:
           path: dbt-artifacts/
 
 # This workflow contains a single job called "build-dbt"
-  build-dbt:
+  build-dbt-modified:
+    needs: [commit-artifacts-to-repo]
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
 
