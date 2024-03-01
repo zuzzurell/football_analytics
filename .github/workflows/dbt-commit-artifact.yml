@@ -62,8 +62,6 @@ jobs:
     needs: commit-artifacts-to-repo
     runs-on: ubuntu-latest
     environment: development
-    if: github.event_name == 'pull_request' && github.event.action == 'closed' && github.event.pull_request.merged == true
-
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v3
