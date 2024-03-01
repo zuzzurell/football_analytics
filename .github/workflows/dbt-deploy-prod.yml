@@ -19,7 +19,6 @@ jobs:
     environment: production
 
     steps:
-      - name: deploy
       - name: Checkout Repository
         uses: actions/checkout@v3
 
