@@ -10,6 +10,7 @@ load_columns as (
     'test_col' as test_column,
     'test_col_2' as test_column_2,
     'test_col_3' as test_column_3,
+    'test_col_4' as test_column_4,
     R::varchar as palyer_role,
     nome::varchar as player_name,
     squadra::varchar as palyer_team,
