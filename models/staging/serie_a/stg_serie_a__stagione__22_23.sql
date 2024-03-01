@@ -8,6 +8,7 @@ load_columns as (
     '2022-2023' as season,
     --test
     'test_col' as test_column,
+    'test_col_2' as test_column,
     R::varchar as palyer_role,
     nome::varchar as player_name,
     squadra::varchar as palyer_team,
