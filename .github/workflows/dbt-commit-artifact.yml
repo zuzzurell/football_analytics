@@ -65,6 +65,8 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v3
+        with:
+          ref: main
 
       # Sets up Python
       - name: Set up Python
