@@ -1,8 +1,12 @@
-name: Deploy to Production
+name: Run DBT build for Prod
 
+# Controls when the workflow will run
 on:
   workflow_dispatch:
     branches: [main]
+
+  # Allows you to run this workflow manually from the Actions tab  
+  workflow_dispatch:
 
 env:
   DBT_PROFILES_DIR: ./profiles/
@@ -10,26 +14,32 @@ env:
   DBT_PASSWORD_FOOTBALL: ${{ secrets.DBT_PASSWORD_FOOTBALL }}
 
 jobs:
-  deployment_production:
+  dbt_build_dev:
+
+    needs: commit-artifacts-to-repo
     runs-on: ubuntu-latest
-    if: github.event_name == 'workflow_dispatch'
     environment: production
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v3
 
+      # Sets up Python
       - name: Set up Python
         uses: actions/setup-python@v2
         with:
           python-version: '3.8'
 
+      # Installs dbt
       - name: Install dbt
         run: |
           python -m pip install --upgrade pip
           pip install dbt-snowflake
 
+      # Gets dependencies
       - name: Get Dependencies
         run: dbt deps 
 
+      # Generates files
       - name: Generate Files
-        run: dbt compile --profiles-dir profiles --profile prod
+      #Comparing to prod as dev for now is supposed to be the local development
+        run: dbt build --profiles-dir profiles --profile prod
