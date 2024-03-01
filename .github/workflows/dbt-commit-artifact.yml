@@ -58,7 +58,7 @@ jobs:
           name: dbt-artifacts-files
           path: dbt-artifacts/
 
-  deployment::dev:
+  deployment_development:
     needs: commit-artifacts-to-repo
     runs-on: ubuntu-latest
     environment: development
