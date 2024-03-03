@@ -37,7 +37,7 @@ env:
 
       - name: Run docker container
         run: docker run \
-          --env DBT_ACCOUNT_FOOTBALL={$DBT_ACCOUNT_FOOTBALL} \
-          --env DBT_PASSWORD_FOOTBALL={$DBT_PASSWORD_FOOTBALL} \
+          --env DBT_ACCOUNT_FOOTBALL=${DBT_ACCOUNT_FOOTBALL} \
+          --env DBT_PASSWORD_FOOTBALL=${DBT_PASSWORD_FOOTBALL} \
           alessandro19920610/dbt-image \
-          /bin/bash -c "{$DBT_COMMANDS}" 
+          /bin/bash -c "${DBT_COMMANDS}" 
