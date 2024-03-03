@@ -43,11 +43,12 @@ jobs:
         run: docker build . -t alessandro19920610/dbt-image
  
       - name: Run docker container
-        run: docker run \
-          --env DBT_ACCOUNT_FOOTBALL=${DBT_ACCOUNT_FOOTBALL} \
-          --env DBT_PASSWORD_FOOTBALL=${DBT_PASSWORD_FOOTBALL} \
-          alessandro19920610/dbt-image \
-          /bin/bash -c "${DBT_COMMANDS}"
+        run: |
+          docker run \
+            --env DBT_ACCOUNT_FOOTBALL="${DBT_ACCOUNT_FOOTBALL}" \
+            --env DBT_PASSWORD_FOOTBALL="${DBT_PASSWORD_FOOTBALL}" \
+            alessandro19920610/dbt-image \
+            /bin/bash -c "${DBT_COMMANDS}"
       
       - name: Commit Changes to a New Image
         run: |

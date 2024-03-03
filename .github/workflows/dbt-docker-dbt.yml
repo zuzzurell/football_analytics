@@ -44,11 +44,13 @@ jobs:
         run: docker pull alessandro19920610/dbt-image-artifacts
 
       - name: Run docker container
-        run: docker run \
-          --env DBT_ACCOUNT_FOOTBALL=${DBT_ACCOUNT_FOOTBALL} \
-          --env DBT_PASSWORD_FOOTBALL=${DBT_PASSWORD_FOOTBALL} \
-          alessandro19920610/dbt-image \
-          /bin/bash -c "${DBT_COMMANDS}" 
+        run: |
+          docker run \
+            --env DBT_ACCOUNT_FOOTBALL="${DBT_ACCOUNT_FOOTBALL}" \
+            --env DBT_PASSWORD_FOOTBALL="${DBT_PASSWORD_FOOTBALL}" \
+            alessandro19920610/dbt-image \
+            /bin/bash -c "${DBT_COMMANDS}"
+
 
   deploy-to-development:
     needs: [build-dbt-modified]
