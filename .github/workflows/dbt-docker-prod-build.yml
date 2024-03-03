@@ -10,9 +10,10 @@ env:
   DBT_PASSWORD_FOOTBALL: ${{ secrets.DBT_PASSWORD_FOOTBALL }}
   DBT_COMMANDS: dbt run --profile prod
 
+jobs:
   dbt_build_prod:
     runs-on: ubuntu-latest
-    environment:
+    environment: 
       name: production
     steps:
       - name: Checkout Repository
