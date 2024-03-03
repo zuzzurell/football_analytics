@@ -53,7 +53,7 @@ jobs:
       - name: Commit Changes to a New Image
         run: |
           container_id=$(docker ps --latest)
-          docker commit $container_id alessandro19920610/dbt-image
+          docker commit "${container_id}" alessandro19920610/dbt-image
       
       - name: New docker Image with Aritifacts
         run: docker tag alessandro19920610/dbt-image alessandro19920610/dbt-image-artifacts
