@@ -40,5 +40,5 @@ jobs:
         run: docker run \
           --env DBT_ACCOUNT_FOOTBALL="${DBT_ACCOUNT_FOOTBALL}" \
           --env DBT_PASSWORD_FOOTBALL="${DBT_PASSWORD_FOOTBALL}" \
-          alessandro19920610/dbt-image \
+          alessandro19920610/dbt-image-production \
           /bin/bash -c "${DBT_COMMANDS}" 
