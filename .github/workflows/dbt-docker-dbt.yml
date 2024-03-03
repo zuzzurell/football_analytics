@@ -57,9 +57,9 @@ jobs:
     runs-on: ubuntu-latest
     environment: 
       name: development
-      steps:
-        - name: Checkout Repository
-          uses: actions/checkout@v3
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
 
       # Sets up Python
       - name: Set up Python
