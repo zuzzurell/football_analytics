@@ -11,11 +11,9 @@ env:
   DBT_PROFILES_DIR: ./profiles/
   DBT_ACCOUNT_FOOTBALL: ${{ secrets.DBT_ACCOUNT_FOOTBALL }}
   DBT_PASSWORD_FOOTBALL: ${{ secrets.DBT_PASSWORD_FOOTBALL }}
-
-variables:
-    DBT_COMMANDS:  |
-          dbt compile  # Compiles our feature branch changes
-          dbt run --select state:modified+ --profile dev --defer --state dbt-artifacts  # Runs modified dbt models only
+  DBT_COMMANDS:  |
+        dbt compile  # Compiles our feature branch changes
+        dbt run --select state:modified+ --profile dev --defer --state dbt-artifacts  # Runs modified dbt models only
 jobs:
 
 # This workflow contains a single job called "build-dbt"

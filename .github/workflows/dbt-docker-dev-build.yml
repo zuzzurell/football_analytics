@@ -7,10 +7,7 @@ env:
   DBT_PROFILES_DIR: ./profiles/
   DBT_ACCOUNT_FOOTBALL: ${{ secrets.DBT_ACCOUNT_FOOTBALL }}
   DBT_PASSWORD_FOOTBALL: ${{ secrets.DBT_PASSWORD_FOOTBALL }}
-
-variables:
-    DBT_COMMANDS:  |
-          dbt run --profile dev
+  DBT_COMMANDS: dbt run --profile dev
 
   dbt_build_prod:
     runs-on: ubuntu-latest

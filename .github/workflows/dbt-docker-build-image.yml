@@ -13,9 +13,7 @@ env:
   DBT_PROFILES_DIR: ./profiles/
   DBT_ACCOUNT_FOOTBALL: ${{ secrets.DBT_ACCOUNT_FOOTBALL }}
   DBT_PASSWORD_FOOTBALL: ${{ secrets.DBT_PASSWORD_FOOTBALL }}
- 
-variables:
-    DBT_COMMANDS:  dbt compile --profiles-dir profiles --profile dev --target-path=dbt-artifacts && ls
+  DBT_COMMANDS:  dbt compile --profiles-dir profiles --profile dev --target-path=dbt-artifacts && ls
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
