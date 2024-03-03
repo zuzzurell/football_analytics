@@ -1,4 +1,4 @@
-name: Run DBT build for Prod
+name: Run DBT in DOCKER build for Prod
 
   # Allows you to run this workflow manually from the Actions tab  
 on:
@@ -38,7 +38,7 @@ jobs:
 
       - name: Run docker container
         run: docker run \
-          --env DBT_ACCOUNT_FOOTBALL=${DBT_ACCOUNT_FOOTBALL} \
-          --env DBT_PASSWORD_FOOTBALL=${DBT_PASSWORD_FOOTBALL} \
+          --env DBT_ACCOUNT_FOOTBALL="${DBT_ACCOUNT_FOOTBALL}" \
+          --env DBT_PASSWORD_FOOTBALL="${DBT_PASSWORD_FOOTBALL}" \
           alessandro19920610/dbt-image \
           /bin/bash -c "${DBT_COMMANDS}" 

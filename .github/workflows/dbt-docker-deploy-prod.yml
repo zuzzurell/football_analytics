@@ -1,4 +1,4 @@
-name: DBT deploy prod
+name: DBT deploy prod in DOCKER
 
 # Controls when the workflow will run
 on:

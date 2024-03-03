@@ -1,4 +1,4 @@
-name: DBT run new models
+name: DBT run new models in DOCKER
 
 # Controls when the workflow will run
 on:
