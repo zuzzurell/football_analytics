@@ -53,7 +53,7 @@ jobs:
   deploy-to-development:
     needs: [build-dbt-modified]
     runs-on: ubuntu-latest
-    environment:
+    environment: 
       name: development
       steps:
         - name: Checkout Repository
