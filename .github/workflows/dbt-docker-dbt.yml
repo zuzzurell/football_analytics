@@ -54,7 +54,7 @@ jobs:
         run: |
           docker ps --latest -q
           container_id=$(docker ps --latest -q)
-          docker cp dbt-artifacts/. "${container_id}":/dbt-artifacts/
+          docker cp dbt-artifacts/. "${container_id}":/dbt-artifacts
 
       - name: Run docker container
         run: |
