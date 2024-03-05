@@ -7,7 +7,6 @@ on:
       - closed
     branches: [main]
 
-
   # Allows you to run this workflow manually from the Actions tab  
   workflow_dispatch:
 
@@ -19,7 +18,7 @@ env:
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
 
-# This workflow contains a single job called "build-dbt"
+  # This workflow contains a single job called "load-dbt-artifacts"
   load-dbt-artifacts:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
@@ -34,17 +33,20 @@ jobs:
         uses: actions/setup-python@v2
         with:
           python-version: '3.8'
-      
+
+      # Install dbt-snowflake
       - name: Install dbt-snowflake
-        run:  |
+        run: |
           python -m pip install --upgrade pip
           pip install dbt-snowflake
           
+      # Run dbt compile 
       - name: Run dbt compile 
         run: dbt compile --profiles-dir profiles --profile dev --target-path=dbt-artifacts && ls
 
+      # Upload Artifacts
       - name: Upload Artifacts
-      - uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v4
         with:
           name: dbt-artifacts
           path: ./dbt-artifacts

@@ -2,21 +2,20 @@ name: DBT run new models in DOCKER
 
 # Controls when the workflow will run
 on:
-  # Triggers the workflow on push or pull request events but only for the "main" branch
+  # Triggers the workflow on pull request events but only for the "main" branch
   pull_request:
     branches: [main]
-
 
 env:
   DBT_PROFILES_DIR: ./profiles/
   DBT_ACCOUNT_FOOTBALL: ${{ secrets.DBT_ACCOUNT_FOOTBALL }}
   DBT_PASSWORD_FOOTBALL: ${{ secrets.DBT_PASSWORD_FOOTBALL }}
-  DBT_COMMANDS:  |
-        dbt compile  # Compiles our feature branch changes
-        dbt run --select "state:modified+" --profile dev --defer --state dbt-artifacts  # Runs modified dbt models only
-jobs:
+  DBT_COMMANDS: |
+    dbt compile  # Compiles our feature branch changes
+    dbt run --select "state:modified+" --profile dev --defer --state dbt-artifacts  # Runs modified dbt models only
 
-# This workflow contains a single job called "build-dbt"
+jobs:
+  # This workflow contains a single job called "build-dbt-modified"
   build-dbt-modified:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
@@ -33,7 +32,7 @@ jobs:
           python-version: '3.8'
       
       - name: Install Docker
-        run:  |
+        run: |
           python -m pip install --upgrade pip
           pip install docker
 
@@ -41,7 +40,7 @@ jobs:
         run: docker build . -t alessandro19920610/dbt-image
         
       - name: Get DBT artifacts
-      - uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v4
         with:
           name: dbt-artifacts
 
@@ -54,7 +53,7 @@ jobs:
             /bin/bash -c "${DBT_COMMANDS}"
       
       - name: Docker Log IN
-        run: docker login -u alessandro19920610  --p ${{ secrets.DBT_DOCKER }}
+        run: docker login -u alessandro19920610 --password-stdin <<<${{ secrets.DBT_DOCKER }}
 
       - name: New docker Image for development
         run: docker tag alessandro19920610/dbt-image alessandro19920610/dbt-image-artifacts
@@ -79,12 +78,12 @@ jobs:
           python-version: '3.8'
       
       - name: Install Docker
-        run:  |
+        run: |
           python -m pip install --upgrade pip
           pip install docker
       
       - name: Docker Log IN
-        run: docker login -u alessandro19920610 --p ${{ secrets.DBT_DOCKER }}
+        run: docker login -u alessandro19920610 --password-stdin <<<${{ secrets.DBT_DOCKER }}
       
       - name: Pull Docker Image with artifacts
         run: docker pull alessandro19920610/dbt-image-artifacts
@@ -94,4 +93,3 @@ jobs:
 
       - name: Push Image
         run: docker push alessandro19920610/dbt-image-development
-      
