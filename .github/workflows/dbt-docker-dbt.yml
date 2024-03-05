@@ -12,7 +12,7 @@ env:
   DBT_PASSWORD_FOOTBALL: ${{ secrets.DBT_PASSWORD_FOOTBALL }}
   DBT_COMMANDS: |
     dbt compile  # Compiles our feature branch changes
-    dbt run --select "state:modified+" --profile dev --defer --state dbt-artifacts  # Runs modified dbt models only
+    dbt run --select "state:modified+" --profile dev --defer --state dbt-artifacts-files  # Runs modified dbt models only
 
 jobs:
   # This workflow contains a single job called "build-dbt-modified"
@@ -44,8 +44,8 @@ jobs:
         uses: dawidd6/action-download-artifact@v3
         with:
           workflow: dbt-load-artifacts.yml 
-          name: dbt-artifacts
-          path: ./dbt-artifacts
+          name: dbt-artifacts-files
+          path: dbt-artifact-directory/
       
       - name: Display structure of downloaded files
         run: ls .
@@ -53,7 +53,10 @@ jobs:
       - name: Copy artifacts to docker container
         run: |
           container_id=$(docker run -d alessandro19920610/dbt-image)
-          docker cp dbt-artifacts/. "${container_id}":/dbt-artifacts
+          docker cp dbt-artifact-directory/. "${container_id}":/dbt-artifacts-files
+
+      - name: Docker file structure
+        run: docker run alessandro19920610/dbt-image ls
 
       - name: Run docker container
         run: |
