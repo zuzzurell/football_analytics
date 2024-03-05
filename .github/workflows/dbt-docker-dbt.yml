@@ -52,10 +52,9 @@ jobs:
 
       - name: Copy artifacts to docker container
         run: |
-          container_id=$(docker ps --latest -q)
-          echo "${container_id}"
           docker ps --latest -q
-          docker cp ./dbt-artifacts "${container_id}":/dbt-artifacts/
+          container_id=$(docker ps --latest -q)
+          docker cp dbt-artifacts/. "${container_id}":/dbt-artifacts
 
       - name: Run docker container
         run: |
