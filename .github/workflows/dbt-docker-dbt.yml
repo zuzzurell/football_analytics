@@ -53,19 +53,21 @@ jobs:
       - name: Copy artifacts to docker container
         run: |
           container_id=$(docker run -d alessandro19920610/dbt-image)
-          docker cp dbt-artifact-directory/. "${container_id}":/dbt-artifacts-files
+          docker cp dbt-artifact-directory/. "${container_id}":/dbt_football_analytics/dbt-artifacts-files
+          docker exec "${container_id}" ls
           docker commit "${container_id}" alessandro19920610/dbt-image-artifacts
 
           
 
       - name: Docker Log IN
-        run: docker login -u alessandro19920610 --password-stdin <<<${{ secrets.DBT_DOCKER }}
+        run: docker login -u alessandro19920610 --p ${{ secrets.DBT_DOCKER }}
 
       - name: Push Image
         run: docker push alessandro19920610/dbt-image-artifacts
 
       - name: Pull Image
         run: docker pull alessandro19920610/dbt-image-artifacts
+
         
       - name: Run docker container
         run: |
