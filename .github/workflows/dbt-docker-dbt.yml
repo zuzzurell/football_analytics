@@ -49,11 +49,13 @@ jobs:
       
       - name: Display structure of downloaded files
         run: ls .
+      
+      - name: Copy artifacts to docker container
+        run: docker run -t alessandro19920610/dbt-image
 
       - name: Copy artifacts to docker container
         run: |
-          docker ps --latest -q
-          container_id=$(docker ps --latest -q)
+          container_id=$(docker run -d alessandro19920610/dbt-image)
           docker cp dbt-artifacts/. "${container_id}":/dbt-artifacts
 
       - name: Run docker container
