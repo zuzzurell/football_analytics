@@ -13,7 +13,7 @@ env:
   DBT_PASSWORD_FOOTBALL: ${{ secrets.DBT_PASSWORD_FOOTBALL }}
   DBT_COMMANDS:  |
         dbt compile  # Compiles our feature branch changes
-        dbt run --select state:modified+ --profile dev --defer --state dbt-artifacts  # Runs modified dbt models only
+        dbt run --select "state:modified+" --profile dev --defer --state dbt-artifacts  # Runs modified dbt models only
 jobs:
 
 # This workflow contains a single job called "build-dbt"
@@ -38,7 +38,7 @@ jobs:
           pip install docker
         
       - name: Docker Log IN
-        run: docker login -u alessandro19920610 -p ${{ secrets.DBT_DOCKER }}
+        run: docker login -u alessandro19920610  --password-stdin ${{ secrets.DBT_DOCKER }}
           
       - name: Pull Docker Image with artifacts
         run: docker pull alessandro19920610/dbt-image-artifacts
@@ -73,7 +73,7 @@ jobs:
           pip install docker
       
       - name: Docker Log IN
-        run: docker login -u alessandro19920610 -p ${{ secrets.DBT_DOCKER }}
+        run: docker login -u alessandro19920610 --password-stdin ${{ secrets.DBT_DOCKER }}
       
       - name: Pull Docker Image with artifacts
         run: docker pull alessandro19920610/dbt-image-artifacts
