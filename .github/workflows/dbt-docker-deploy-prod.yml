@@ -38,7 +38,7 @@ jobs:
         run: docker login -u alessandro19920610 -p ${{ secrets.DBT_DOCKER }}
 
       - name: Pull Docker Image developmemt
-        run: docker pull alessandro19920610/dbt-image-artifacts
+        run: docker pull alessandro19920610/dbt-image-development
       
       - name: New docker Image for development
         run: docker tag alessandro19920610/dbt-image-development alessandro19920610/dbt-image-production
