@@ -52,6 +52,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: dbt-artifacts
+          path: ./
       
       - name: Check Artifacts are uploaded
         run: ls

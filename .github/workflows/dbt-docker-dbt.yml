@@ -52,7 +52,7 @@ jobs:
 
       - name: Copy artifacts to docker container
         run: |
-          container_id=$(docker ps -l -q)
+          container_id="$(docker ps -l -q)"
           docker cp dbt-artifacts "$container_id":dbt_football_analytics/dbt-artifacts
 
       - name: Run docker container
