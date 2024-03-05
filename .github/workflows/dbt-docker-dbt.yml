@@ -54,9 +54,8 @@ jobs:
         run: |
           container_id=$(docker run -d alessandro19920610/dbt-image)
           docker cp dbt-artifact-directory/. "${container_id}":/dbt-artifacts-files
+          docker commit ${container_id} ls alessandro19920610/dbt-image
 
-      - name: Docker file structure
-        run: docker commit ${container_id} ls alessandro19920610/dbt-image
 
       - name: Docker Log IN
         run: docker login -u alessandro19920610 --password-stdin <<<${{ secrets.DBT_DOCKER }}
