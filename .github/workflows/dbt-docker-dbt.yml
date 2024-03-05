@@ -52,6 +52,7 @@ jobs:
 
       - name: Copy artifacts to docker container
         run: |
+          docker run -d alessandro19920610/dbt-image
           container_id=$(docker ps --latest -q)
           docker cp dbt-artifact-directory/. "${container_id}":/dbt_football_analytics/dbt-artifacts-files
           docker commit "${container_id}" alessandro19920610/dbt-image-artifacts
