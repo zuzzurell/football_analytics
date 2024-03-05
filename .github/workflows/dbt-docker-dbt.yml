@@ -43,6 +43,10 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: dbt-artifacts
+          path: ./dbt-artifacts
+      
+      - name: Display structure of downloaded files
+        run: ls .
 
       - name: Run docker container
         run: |
