@@ -38,7 +38,7 @@ jobs:
           pip install docker
         
       - name: Docker Log IN
-        run: docker login -u alessandro19920610  --password-stdin ${{ secrets.DBT_DOCKER }}
+        run: docker login -u alessandro19920610  --p ${{ secrets.DBT_DOCKER }}
           
       - name: Pull Docker Image with artifacts
         run: docker pull alessandro19920610/dbt-image-artifacts
