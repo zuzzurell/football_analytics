@@ -106,7 +106,7 @@ jobs:
         run: docker pull alessandro19920610/dbt-image-artifacts
       
       - name: New docker Image for development
-        run: docker tag alessandro19920610/dbt-image alessandro19920610/dbt-image-development
+        run: docker tag alessandro19920610/dbt-image-artifacts alessandro19920610/dbt-image-development
 
       - name: Push Image
         run: docker push alessandro19920610/dbt-image-development
