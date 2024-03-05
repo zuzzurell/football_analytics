@@ -1,0 +1,50 @@
+name: DBT Load Artifacts
+
+# Controls when the workflow will run
+on:
+  pull_request:
+    types:
+      - closed
+    branches: [main]
+
+
+  # Allows you to run this workflow manually from the Actions tab  
+  workflow_dispatch:
+
+env:
+  DBT_PROFILES_DIR: ./profiles/
+  DBT_ACCOUNT_FOOTBALL: ${{ secrets.DBT_ACCOUNT_FOOTBALL }}
+  DBT_PASSWORD_FOOTBALL: ${{ secrets.DBT_PASSWORD_FOOTBALL }}
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+
+# This workflow contains a single job called "build-dbt"
+  load-dbt-artifacts:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+    steps:
+
+      # Checks out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      # Sets up Python
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.8'
+      
+      - name: Install dbt-snowflake
+        run:  |
+          python -m pip install --upgrade pip
+          pip install dbt-snowflake
+          
+      - name: Run dbt compile 
+        run: dbt compile --profiles-dir profiles --profile dev --target-path=dbt-artifacts && ls
+
+      - name: Upload Artifacts
+      - uses: actions/upload-artifact@v4
+        with:
+          name: dbt-artifacts
+          path: ./dbt-artifacts
