@@ -45,14 +45,14 @@ jobs:
           
       # Run dbt compile 
       - name: Run dbt compile 
-        run: dbt compile --profiles-dir profiles --profile dev --target-path=dbt-artifacts && ls
+        run: dbt compile --profiles-dir profiles --profile dev --target-path=dbt-artifact-director && ls
 
       # Upload Artifacts
       - name: Upload Artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: dbt-artifacts
-          path: ./
+          name: dbt-artifacts-files
+          path: dbt-artifact-directory/
       
       - name: Check Artifacts are uploaded
         run: ls
