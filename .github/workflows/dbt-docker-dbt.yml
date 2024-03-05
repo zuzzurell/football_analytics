@@ -59,7 +59,7 @@ jobs:
 
       
       - name: Docker Log IN
-        run: docker login -u alessandro19920610 --p ${{ secrets.DBT_DOCKER }}
+        run: docker login -u alessandro19920610 -p ${{ secrets.DBT_DOCKER }}
 
       - name: Push Image
         run: docker push alessandro19920610/dbt-image-artifacts
