@@ -13,7 +13,7 @@ env:
   DBT_PASSWORD_FOOTBALL: ${{ secrets.DBT_PASSWORD_FOOTBALL }}
   DBT_COMMANDS:  |
         dbt compile  # Compiles our feature branch changes
-        dbt run --select state:modified+ --profile dev --defer --state dbt-artifacts  # Runs modified dbt models only
+        dbt run --select "state:modified+" --profile dev --defer --state dbt-artifacts  # Runs modified dbt models only
 jobs:
 
 # This workflow contains a single job called "build-dbt"
@@ -36,20 +36,31 @@ jobs:
         run:  |
           python -m pip install --upgrade pip
           pip install docker
+
+      - name: Build docker DBT image
+        run: docker build . -t alessandro19920610/dbt-image
         
-      - name: Docker Log IN
-        run: docker login -u alessandro19920610 -p ${{ secrets.DBT_DOCKER }}
-          
-      - name: Pull Docker Image with artifacts
-        run: docker pull alessandro19920610/dbt-image-artifacts
+      - name: Get DBT artifacts
+      - uses: actions/download-artifact@v4
+        with:
+          name: dbt-artifacts
 
       - name: Run docker container
         run: |
           docker run \
             --env DBT_ACCOUNT_FOOTBALL="${DBT_ACCOUNT_FOOTBALL}" \
             --env DBT_PASSWORD_FOOTBALL="${DBT_PASSWORD_FOOTBALL}" \
-            alessandro19920610/dbt-image-artifacts \
+            alessandro19920610/dbt-image \
             /bin/bash -c "${DBT_COMMANDS}"
+      
+      - name: Docker Log IN
+        run: docker login -u alessandro19920610  --p ${{ secrets.DBT_DOCKER }}
+
+      - name: New docker Image for development
+        run: docker tag alessandro19920610/dbt-image alessandro19920610/dbt-image-artifacts
+
+      - name: Push Image
+        run: docker push alessandro19920610/dbt-image-artifacts
 
 
   deploy-to-development:
@@ -73,13 +84,13 @@ jobs:
           pip install docker
       
       - name: Docker Log IN
-        run: docker login -u alessandro19920610 -p ${{ secrets.DBT_DOCKER }}
+        run: docker login -u alessandro19920610 --p ${{ secrets.DBT_DOCKER }}
       
       - name: Pull Docker Image with artifacts
         run: docker pull alessandro19920610/dbt-image-artifacts
       
       - name: New docker Image for development
-        run: docker tag alessandro19920610/dbt-image-artifacts alessandro19920610/dbt-image-development
+        run: docker tag alessandro19920610/dbt-image alessandro19920610/dbt-image-development
 
       - name: Push Image
         run: docker push alessandro19920610/dbt-image-development
