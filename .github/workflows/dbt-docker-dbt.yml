@@ -43,8 +43,9 @@ jobs:
         id: download-artifact
         uses: dawidd6/action-download-artifact@v3
         with:
-          workflow: dbt-load-artifacts.yml  # Use the workflow token instead of GITHUB_TOKEN
+          workflow: dbt-load-artifacts.yml 
           name: dbt-artifacts
+          path: ./dbt-artifacts
       
       - name: Display structure of downloaded files
         run: ls .
