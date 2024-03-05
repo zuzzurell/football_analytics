@@ -38,12 +38,13 @@ jobs:
 
       - name: Build docker DBT image
         run: docker build . -t alessandro19920610/dbt-image
-        
-      - name: Get DBT artifacts
-        uses: actions/download-artifact@v4
+      
+      - name: Download DBT artifacts
+        id: download-artifact
+        uses: dawidd6/action-download-artifact@v3
         with:
+          workflow: dbt-load-artifacts.yml  # Use the workflow token instead of GITHUB_TOKEN
           name: dbt-artifacts
-          path: ./dbt-artifacts
       
       - name: Display structure of downloaded files
         run: ls .
