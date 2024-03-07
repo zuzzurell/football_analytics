@@ -6,19 +6,19 @@ on:
 
 env:
   DBT_PROFILES_DIR: ./profiles/
-  DBT_ACCOUNT_FOOTBALL: ${{ secrets.DBT_ACCOUNT_FOOTBALL }}
-  DBT_PASSWORD_FOOTBALL: ${{ secrets.DBT_PASSWORD_FOOTBALL }}
+  DBT_ACCOUNT_FOOTBALL: ${{ secrets.DBT_ACCOUNT_FOOTBALL }} # Secret containing DBT account info
+  DBT_PASSWORD_FOOTBALL: ${{ secrets.DBT_PASSWORD_FOOTBALL }} # Secret containing DBT password
 
 jobs:
 
-# This workflow contains a single job called "build-dbt"
+  # This workflow contains a single job called "deploy_to_production"
   deploy_to_production:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
     environment: 
       name: production
-    steps:
 
+    steps:
       # Checks out your repository under $GITHUB_WORKSPACE, so your job can access it
       - name: Checkout Repository
         uses: actions/checkout@v3
@@ -29,20 +29,24 @@ jobs:
         with:
           python-version: '3.8'
       
+      # Install Docker
       - name: Install Docker
         run:  |
           python -m pip install --upgrade pip
           pip install docker
     
+      # Log in to Docker Hub using credentials
       - name: Docker Log IN
-        run: docker login -u alessandro19920610 -p ${{ secrets.DBT_DOCKER }}
+        run: docker login -u alessandro19920610  --password-stdin <<<${{ secrets.DBT_DOCKER }}
 
-      - name: Pull Docker Image developmemt
+      # Pull Docker Image from development environment
+      - name: Pull Docker Image development
         run: docker pull alessandro19920610/dbt-image-development
       
-      - name: New docker Image for development
+      # Tag the Docker image for production
+      - name: Tag Docker Image for production
         run: docker tag alessandro19920610/dbt-image-development alessandro19920610/dbt-image-production
 
+      # Push tagged Docker Image to Docker Hub for production environment
       - name: Push Image
         run: docker push alessandro19920610/dbt-image-production
-      

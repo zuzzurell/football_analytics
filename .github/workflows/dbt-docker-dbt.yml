@@ -1,11 +1,11 @@
 name: DBT run new models in DOCKER
 
-# Controls when the workflow will run
+# This workflow runs when there's a pull request targeting the "main" branch
 on:
-  # Triggers the workflow on pull request events but only for the "main" branch
   pull_request:
     branches: [main]
 
+# Environment variables used in the workflow
 env:
   DBT_PROFILES_DIR: ./profiles/
   DBT_ACCOUNT_FOOTBALL: ${{ secrets.DBT_ACCOUNT_FOOTBALL }}
@@ -15,30 +15,32 @@ env:
     dbt run --select "state:modified+" --profile dev --defer --state dbt-artifacts-files  # Runs modified dbt models only
 
 jobs:
-  # This workflow contains a single job called "build-dbt-modified"
+  # This job builds and modifies the Docker image for DBT
   build-dbt-modified:
-    # The type of runner that the job will run on
-    runs-on: ubuntu-latest
-    steps:
+    runs-on: ubuntu-latest  # Operating system for the job
 
-      # Checks out your repository under $GITHUB_WORKSPACE, so your job can access it
+    steps:
+      # Checks out the repository so the job can access its contents
       - name: Checkout Repository
         uses: actions/checkout@v3
 
-      # Sets up Python
+      # Sets up Python for the job
       - name: Set up Python
         uses: actions/setup-python@v2
         with:
           python-version: '3.8'
-      
+
+      # Installs Docker in the job environment
       - name: Install Docker
         run: |
           python -m pip install --upgrade pip
           pip install docker
 
+      # Builds the Docker image for DBT
       - name: Build docker DBT image
         run: docker build . -t alessandro19920610/dbt-image
-      
+
+      # Downloads the DBT artifacts from a previous workflow run
       - name: Download DBT artifacts
         id: download-artifact
         uses: dawidd6/action-download-artifact@v3
@@ -47,9 +49,11 @@ jobs:
           name: dbt-artifacts-files
           path: dbt-artifact-directory/
       
+      # Displays the structure of the downloaded files
       - name: Display structure of downloaded files
         run: ls .
 
+      # Copies the downloaded artifacts into the Docker container
       - name: Copy artifacts to docker container
         run: |
           docker run -d alessandro19920610/dbt-image
@@ -57,17 +61,19 @@ jobs:
           docker cp dbt-artifact-directory/. "${container_id}":/dbt_football_analytics/dbt-artifacts-files
           docker commit "${container_id}" alessandro19920610/dbt-image-artifacts
 
-      
+      # Logs in to Docker Hub
       - name: Docker Log IN
-        run: docker login -u alessandro19920610 -p ${{ secrets.DBT_DOCKER }}
+        run: docker login -u alessandro19920610 --password-stdin <<<${{ secrets.DBT_DOCKER }}
 
+      # Pushes the Docker image with artifacts to Docker Hub
       - name: Push Image
         run: docker push alessandro19920610/dbt-image-artifacts
 
+      # Pulls the Docker image with artifacts from Docker Hub
       - name: Pull Image
         run: docker pull alessandro19920610/dbt-image-artifacts
 
-        
+      # Runs the Docker container with the DBT image and executes DBT commands
       - name: Run docker container
         run: |
           docker run \
@@ -75,38 +81,43 @@ jobs:
             --env DBT_PASSWORD_FOOTBALL="${DBT_PASSWORD_FOOTBALL}" \
             alessandro19920610/dbt-image-artifacts \
             /bin/bash -c "${DBT_COMMANDS}"
-      
 
-
-
+  # This job deploys the modified DBT image to the development environment
   deploy-to-development:
-    needs: [build-dbt-modified]
-    runs-on: ubuntu-latest
+    needs: [build-dbt-modified]  # Depends on the completion of the previous job
+    runs-on: ubuntu-latest  # Operating system for the job
     environment: 
-      name: development
+      name: development  # Specifies the environment for the job
+
     steps:
+      # Checks out the repository so the job can access its contents
       - name: Checkout Repository
         uses: actions/checkout@v3
 
-      # Sets up Python
+      # Sets up Python for the job
       - name: Set up Python
         uses: actions/setup-python@v2
         with:
           python-version: '3.8'
       
+      # Installs Docker in the job environment
       - name: Install Docker
         run: |
           python -m pip install --upgrade pip
           pip install docker
       
+      # Logs in to Docker Hub
       - name: Docker Log IN
         run: docker login -u alessandro19920610 --password-stdin <<<${{ secrets.DBT_DOCKER }}
       
+      # Pulls the Docker image with artifacts from Docker Hub
       - name: Pull Docker Image with artifacts
         run: docker pull alessandro19920610/dbt-image-artifacts
       
+      # Tags the Docker image for development
       - name: New docker Image for development
         run: docker tag alessandro19920610/dbt-image-artifacts alessandro19920610/dbt-image-development
 
+      # Pushes the Docker image for development to Docker Hub
       - name: Push Image
         run: docker push alessandro19920610/dbt-image-development
