@@ -35,7 +35,7 @@ models:
 
     staging:
       +materialized: view
-      databes: |
+      +database: |
         {%- if  target.name == "dev" -%} DEV_DBT_FOOTBALL
         {%- elif target.name == "prod"  -%} PROD_DBT_FOOTBALL
         {%- else -%} invalid_database
