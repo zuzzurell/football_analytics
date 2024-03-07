@@ -1,45 +1,55 @@
 name: Run DBT in DOCKER build for DEV
 
-  # Allows you to run this workflow manually from the Actions tab  
+# Allows manual triggering of the workflow from the Actions tab
 on:
   workflow_dispatch:
 
+# Define environment variables used in the workflow
 env:
-  DBT_PROFILES_DIR: ./profiles/
-  DBT_ACCOUNT_FOOTBALL: ${{ secrets.DBT_ACCOUNT_FOOTBALL }}
-  DBT_PASSWORD_FOOTBALL: ${{ secrets.DBT_PASSWORD_FOOTBALL }}
-  DBT_COMMANDS: dbt run --profile dev
+  DBT_PROFILES_DIR: ./profiles/                       # Directory containing DBT profiles
+  DBT_ACCOUNT_FOOTBALL: ${{ secrets.DBT_ACCOUNT_FOOTBALL }}   # Secret for DBT account
+  DBT_PASSWORD_FOOTBALL: ${{ secrets.DBT_PASSWORD_FOOTBALL }}   # Secret for DBT password
+  DBT_COMMANDS: dbt run --profile dev                 # Command to run DBT with dev profile
 
+# Define the jobs to be executed in the workflow
 jobs:
   dbt_build_dev:
+    # Define the type of runner for the job
     runs-on: ubuntu-latest
+    # Define the environment where the job runs
     environment:
       name: production
+    # Define the steps to be executed in the job
     steps:
+      # Checkout the repository to access its contents
       - name: Checkout Repository
         uses: actions/checkout@v3
 
-      # Sets up Python
+      # Set up Python for use in the job
       - name: Set up Python
         uses: actions/setup-python@v2
         with:
           python-version: '3.8'
       
+      # Install Docker for container operations
       - name: Install Docker
         run:  |
           python -m pip install --upgrade pip
           pip install docker
     
+      # Log in to Docker Hub to access images
       - name: Docker Log IN
-        run: docker login -u alessandro19920610 -p ${{ secrets.DBT_DOCKER }}
+        run: docker login -u alessandro19920610 --password-stdin <<<${{ secrets.DBT_DOCKER }}
 
-      - name: Pull Docker Image developmemt
+      # Pull the Docker image for development
+      - name: Pull Docker Image development
         run: docker pull alessandro19920610/dbt-image-development
 
+      # Run a Docker container with DBT commands for development
       - name: Run docker container
         run: |
           docker run \
             --env DBT_ACCOUNT_FOOTBALL="${DBT_ACCOUNT_FOOTBALL}" \
             --env DBT_PASSWORD_FOOTBALL="${DBT_PASSWORD_FOOTBALL}" \
             alessandro19920610/dbt-image-development \
-            /bin/bash -c "${DBT_COMMANDS}"
+            /bin/bash -c "${DBT_COMMANDS}"  

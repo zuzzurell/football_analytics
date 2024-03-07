@@ -2,22 +2,24 @@ name: DBT Load Artifacts
 
 # Controls when the workflow will run
 on:
+  # Triggers the workflow when pull request events are closed in the "main" branch
   pull_request:
     types:
       - closed
     branches: [main]
 
-  # Allows you to run this workflow manually from the Actions tab  
+  # Allows manual triggering of the workflow from the Actions tab  
   workflow_dispatch:
 
 env:
+  # Specifies the directory containing DBT profiles
   DBT_PROFILES_DIR: ./profiles/
+  # Secret variables for DBT account authentication
   DBT_ACCOUNT_FOOTBALL: ${{ secrets.DBT_ACCOUNT_FOOTBALL }}
   DBT_PASSWORD_FOOTBALL: ${{ secrets.DBT_PASSWORD_FOOTBALL }}
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-
   # This workflow contains a single job called "load-dbt-artifacts"
   load-dbt-artifacts:
     # The type of runner that the job will run on
@@ -40,19 +42,21 @@ jobs:
           python -m pip install --upgrade pip
           pip install dbt-snowflake
       
-      - name: Install DBT deps
+      # Install DBT dependencies
+      - name: Install DBT dependencies
         run: dbt deps
           
-      # Run dbt compile 
+      # Run dbt compile to compile SQL files
       - name: Run dbt compile 
         run: dbt compile --profiles-dir profiles --profile dev --target-path=dbt-artifact-directory && ls
 
-      # Upload Artifacts
+      # Upload compiled DBT artifacts
       - name: Upload Artifacts
         uses: actions/upload-artifact@v4
         with:
           name: dbt-artifacts-files
           path: dbt-artifact-directory/
       
+      # Check if the artifacts are uploaded by listing the contents of the artifact directory
       - name: Check Artifacts are uploaded
         run: ls
