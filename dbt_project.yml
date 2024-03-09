@@ -32,13 +32,16 @@ clean-targets:         # directories to be removed by `dbt clean`
 models:
   football_analytics:
     staging:
-      +materialized: view
-      +database: |
+      materialized: view
+      database: |
         {%- if  target.name == "dev" -%} DEV_DBT_FOOTBALL
         {%- elif target.name == "prod"  -%} PROD_DBT_FOOTBALL
         {%- else -%} invalid_database
         {%- endif -%}
-      +schema: STAGE_SERIE_A
+      schema: PUBLIC
+      serie_a:
+        +materialized: view
+        +schema: STAGE_SERIE_A
     intermediate:
       +materialized: table
     marts:
