@@ -25,9 +25,6 @@ clean-targets:
 
 models:
   football_analytics:
-  #Project configs
-    +tags:
-      - dev_limit
     # Staging Layer
     staging:
       materialized: view
