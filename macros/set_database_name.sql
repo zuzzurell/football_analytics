@@ -9,13 +9,13 @@
 
     {%- else -%}
 
-          {% if target.name == "dev" %}
-            DEV_DBT_FOOTBALL
-          {% elif target.name == "prod" %}
-            PROD_DBT_FOOTBALL
-          {% else %}
-            {{ default_database }}
-          {% endif %}
+        {% if target.name == "dev" %}
+          DEV_DBT_FOOTBALL
+        {% elif target.name == "prod" %}
+          PROD_DBT_FOOTBALL
+        {% else %}
+          {{ default_database }}
+        {% endif %}
 
     {%- endif -%}
 
