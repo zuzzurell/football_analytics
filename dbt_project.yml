@@ -1,12 +1,9 @@
-# Name your project! Project names should contain only lowercase characters
-# and underscores. A good package name should reflect your organization's
-# name or the intended use of these models
-name: football_analytics
+name: "football_analytics"
 version: '1.0.0'
 config-version: 2
 
 # This setting configures which "profile" dbt uses for this project.
-profile: dev
+profile: "dev"
 
 # These configurations specify where dbt should look for different types of files.
 # The `model-paths` config, for example, states that models in this project can be
@@ -28,10 +25,12 @@ clean-targets:
 
 models:
   football_analytics:
+  #Project configs
+    +tags:
+      - dev_limit
     # Staging Layer
     staging:
       materialized: view
-      database: ["{{ set_database_name() }}"]
       schema: PUBLIC
       # Directory structure
       serie_a:
