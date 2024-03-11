@@ -81,6 +81,6 @@ models:
   - name: stg_serie_a__stagione__16_17
     description: "2016 and 2017 seson values"
     columns: *columns_definition
-    - name: stg_serie_a__stagione__15_16
+  - name: stg_serie_a__stagione__15_16
     description: "2015 and 2016 seson values"
     columns: *columns_definition
