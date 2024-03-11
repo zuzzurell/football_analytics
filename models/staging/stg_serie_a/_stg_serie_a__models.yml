@@ -1,0 +1,86 @@
+version: 2
+models:
+  - name: stg_serie_a__stagione__22_23
+    description: "2022 and 2023 seson values"
+    columns: &columns_definition
+      - name: palyer_sk
+        data_type: varchar
+        description: "Unique surrogate key"
+        tests:
+          - unique
+          - not_null
+      - name: palyer_id
+        data_type: varchar
+        description: "Identifier for each player"
+      - name: season
+        data_type: varchar
+        description: "Played season"
+      - name: palyer_role
+        data_type: varchar
+        description: "Role played"
+      - name: player_name
+        data_type: varchar
+        description: "Name of the player"
+      - name: palyer_team
+        data_type: varchar
+        description: "Team of the player"
+      - name: palyed_games
+        data_type: number
+        description: "Total number of games played"
+      - name: avg_note
+        data_type: number
+        description: "Avg note for the season"
+      - name: avg_fantasy_note
+        data_type: number
+        description: "Avg Fantasy football score for the seaon"
+      - name: goal_scored
+        data_type: number
+        description: "Number of goals scored"
+      - name: goal_conceded
+        data_type: number
+        description: "Number of goals conceded"
+      - name: penalty_saved
+        data_type: number
+        description: "Number of saved penalities"
+      - name: penalty_conceded
+        data_type: number
+        description: "Number of penalties conceded"
+      - name: penality_scored
+        data_type: number
+        description: "Number of penalty scored"
+      - name: penality_missed
+        data_type: number
+        description: "Number of penality missed"
+      - name: assists
+        data_type: number
+        description: "Number of assists"
+      - name: ammonitions
+        data_type: number
+        description: "Number of ammonitions"
+      - name: explusions
+        data_type: number
+        description: "Number of explutions"
+      - name: autogoal
+        data_type: number
+        description: "number of autogoals"
+  - name: stg_serie_a__stagione__21_22
+    description: "2021 and 2022 seson values"
+    columns: *columns_definition
+  - name: stg_serie_a__stagione__20_21
+    description: "2020 and 2021 seson values"
+    columns: *columns_definition
+  - name: stg_serie_a__stagione__19_20
+    description: "2019 and 2020 seson values"
+    columns: *columns_definition
+  - name: stg_serie_a__stagione__18_19
+    description: "2018 and 2019 seson values"
+    columns: *columns_definition
+  - name: stg_serie_a__stagione__17_18
+    description: "2017 and 2018 seson values"
+    columns: *columns_definition
+  - name: stg_serie_a__stagione__16_17
+    description: "2016 and 2017 seson values"
+    columns: *columns_definition
+  - name: stg_serie_a__stagione__15_16
+    description: "2015 and 2016 seson values"
+    columns: *columns_definition
