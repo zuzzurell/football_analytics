@@ -1,0 +1,10 @@
+version: 2
+models:
+  - name: int_serie_a__all_season_unioned
+    columns: &columns_definition
+      - name: palyer_sk
+        data_type: varchar
+        description: "Unique surrogate key"
+        tests:
+          - unique
+          - not_null

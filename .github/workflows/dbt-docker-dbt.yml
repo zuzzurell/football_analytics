@@ -13,6 +13,9 @@ env:
   DBT_COMMANDS: |
     dbt compile  # Compiles our feature branch changes
     dbt run --select "state:modified+" --profile dev --defer --state dbt-artifacts-files  # Runs modified dbt models only
+  DBT_COMMAND_BUILD: |
+    dbt build --select "state:modified+" --profile dev --defer --state dbt-artifacts-files  # Runs modified dbt models only
+
 
 jobs:
   # This job builds and modifies the Docker image for DBT
@@ -113,6 +116,15 @@ jobs:
       # Pulls the Docker image with artifacts from Docker Hub
       - name: Pull Docker Image with artifacts
         run: docker pull alessandro19920610/dbt-image-artifacts
+
+      # Test Changes can be built
+      - name: Build changed before deploying
+        run: |
+          docker run \
+            --env DBT_ACCOUNT_FOOTBALL="${DBT_ACCOUNT_FOOTBALL}" \
+            --env DBT_PASSWORD_FOOTBALL="${DBT_PASSWORD_FOOTBALL}" \
+            alessandro19920610/dbt-image-artifacts \
+            /bin/bash -c "${DBT_COMMAND_BUILD}"
       
       # Tags the Docker image for development
       - name: New docker Image for development

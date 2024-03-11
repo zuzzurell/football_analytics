@@ -1,0 +1,4 @@
+version: 2
+models:
+  - name: fct_serie_a_player_performance
+  - name: dim_serie_a_player

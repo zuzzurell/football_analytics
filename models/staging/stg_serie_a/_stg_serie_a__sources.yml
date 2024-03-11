@@ -9,6 +9,7 @@ sources:
     - name: RAW_SERIE_A_2016_2017
     - name: RAW_SERIE_A_2017_2018
     - name: RAW_SERIE_A_2018_2019
+    - name: RAW_SERIE_A_2019_2020
     - name: RAW_SERIE_A_2020_2021
     - name: RAW_SERIE_A_2021_2022
     - name: RAW_SERIE_A_2022_2023

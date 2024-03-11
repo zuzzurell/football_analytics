@@ -26,16 +26,18 @@ clean-targets:
 models:
   football_analytics:
     # Staging Layer
+
     staging:
-      materialized: view
-      schema: PUBLIC
+      +materialized: view
       # Directory structure
-      serie_a:
-        materialized: view
-        schema: STAGE_SERIE_A
+      stg_serie_a:
+        +schema: STAGE_SERIE_A
     # Intermediate Layer
-    intermediate:
-      materialized: table
+    intermidiate:
+      # Directory structure
+      int_serie_a:
+        +schema: INT_SERIE_A
     # Marts Layer
     marts:
-      materialized: table
+      mart_serie_a:
+        +schema: MART_SERIE_A
